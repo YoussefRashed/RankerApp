@@ -1,12 +1,14 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { CreatePollDto, JoinPollDto } from './dtos';
-import { PollService } from './polls.service';
+import { PollsService } from './polls.service';
 
 @Controller('polls')
 export class PollsController {
-  constructor(private pollService: PollService) {}
+  private readonly logger = new Logger(PollsController.name);
+  constructor(private pollService: PollsService) {}
   @Post()
   async create(@Body() createPollDto: CreatePollDto) {
+    this.logger.debug('hello from controller');
     const result = await this.pollService.createPoll(createPollDto);
     return result;
   }
